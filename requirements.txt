@@ -1,0 +1,8 @@
+streamlit>=1.33 # Versión mínima recomendada para st.dialog
+sqlalchemy
+requests
+pandas
+plotly
+pytz
+numpy # Dependencia de pandas
+pydeck # Si usas st.pydeck_chart en algún momento

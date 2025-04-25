@@ -1,0 +1,7 @@
+[theme]
+base="light" # Forzar tema claro base (blanco)
+primaryColor="#478C3C" # Color primario (ej. para widgets activos), puedes ajustarlo
+backgroundColor="#FFFFFF" # Fondo principal explícitamente blanco
+secondaryBackgroundColor="#F0F8FF" # Un gris muy claro para elementos como el sidebar
+textColor="#000000" # Texto principal negro
+font="sans serif"

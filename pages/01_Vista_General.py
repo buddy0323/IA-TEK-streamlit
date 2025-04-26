@@ -7,13 +7,9 @@ from datetime import datetime, timedelta
 import numpy as np
 
 # Importar decorador de permisos
-from auth.auth import requires_permission
-from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
-
-# --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
-render_sidebar()
-# --- FIN LLAMADA ---
-
+from auth.auth import requires_permission, check_authentication
+from utils.helpers import render_sidebar
+from utils.cookies import get_session_cookie
 
 # Permiso requerido para esta página
 PAGE_PERMISSION = "Vista General"
@@ -106,5 +102,19 @@ def show_general_view_placeholder():
 
 
 # --- Ejecutar la Página ---
-# Llamar a la función principal que contiene el decorador
-show_general_view_placeholder()
+# First check for session cookie
+cookie_data = get_session_cookie()
+if cookie_data:
+    # Restore session state from cookie
+    for key in ['authenticated', 'username', 'user_id', 'role_name', 'permissions']:
+        if key in cookie_data:
+            st.session_state[key] = cookie_data[key]
+    if 'permissions' in cookie_data:
+        st.session_state['permissions'] = set(cookie_data['permissions'])
+
+# Always render sidebar and show content if authenticated
+if st.session_state.get('authenticated', False):
+    render_sidebar()
+    show_general_view_placeholder()
+else:
+    st.stop()

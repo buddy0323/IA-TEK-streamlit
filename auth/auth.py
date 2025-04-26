@@ -15,6 +15,7 @@ from database.database import get_db_session
 from database.models import User, Role
 from utils.config import get_configuration
 from utils.styles import get_login_page_style
+from utils.cookies import set_session_cookie, get_session_cookie, clear_session_cookie
 import logging # Añadir logging
 
 log = logging.getLogger(__name__)
@@ -64,11 +65,26 @@ def validate_password(password, security_config=None):
 def init_session_state():
     now_with_tz = datetime.now(colombia_tz)
     defaults = { 'authenticated': False, 'username': None, 'user_id': None, 'role_name': None, 'permissions': set(), 'last_activity_time': now_with_tz, 'user_action': None, 'editing_user_id': None, 'deleting_user_id': None, 'role_action': None, 'editing_role_name': None, 'deleting_role_name': None, 'agent_action': None, 'editing_agent_id': None, 'deleting_agent_id': None, 'selected_agent_id': None, 'selected_agent_name': None, 'chat_messages': [], 'current_chat_agent_id': None, 'chat_session_id': None, 'chat_selected_agent_chat_url': None, 'selected_agent_id_for_crud': None, 'selected_role_id_for_crud': None }
-    for key, default_value in defaults.items():
-        if key not in st.session_state: st.session_state[key] = default_value
-        elif key == 'last_activity_time':
-            current_time_val = st.session_state.get(key)
-            if not isinstance(current_time_val, datetime) or current_time_val.tzinfo is None: st.session_state[key] = now_with_tz
+    
+    # Check for existing session cookie
+    cookie_data = get_session_cookie()
+    if cookie_data:
+        # Restore session from cookie
+        for key in ['authenticated', 'username', 'user_id', 'role_name', 'permissions']:
+            if key in cookie_data:
+                st.session_state[key] = cookie_data[key]
+        if 'permissions' in cookie_data:
+            st.session_state['permissions'] = set(cookie_data['permissions'])
+        st.session_state['last_activity_time'] = now_with_tz
+    else:
+        # Initialize with defaults
+        for key, default_value in defaults.items():
+            if key not in st.session_state:
+                st.session_state[key] = default_value
+            elif key == 'last_activity_time':
+                current_time_val = st.session_state.get(key)
+                if not isinstance(current_time_val, datetime) or current_time_val.tzinfo is None:
+                    st.session_state[key] = now_with_tz
 
 def update_last_activity(): st.session_state['last_activity_time'] = datetime.now(colombia_tz)
 
@@ -138,16 +154,24 @@ def show_login_page():
                             st.session_state['permissions'] = user_info['permissions']
                             st.session_state['last_activity_time'] = datetime.now(colombia_tz)
                             for key in ['user_action','role_action','agent_action']: st.session_state.pop(key, None) # Limpiar
+                            
+                            # Set session cookie
+                            cookie_data = {
+                                'authenticated': True,
+                                'username': user_info['username'],
+                                'user_id': user_info['user_id'],
+                                'role_name': user_info['role_name'],
+                                'permissions': list(user_info['permissions'])
+                            }
+                            set_session_cookie(cookie_data)
+                            
                             st.success("Inicio de sesión exitoso...")
                             time.sleep(0.5)
-                            # --- CAMBIO AQUÍ: Usar switch_page ---
                             try:
-                                # >>> ESTA LÍNEA YA ES CORRECTA EN TU CÓDIGO <<<
                                 st.switch_page("pages/01_Vista_General.py")
                             except Exception as e_switch:
                                 log.error(f"Failed to switch page after login: {e_switch}")
-                                st.rerun() # Fallback# ...                          
-                            # --- FIN CAMBIO ---
+                                st.rerun()
                         else: st.error(error_msg or "Usuario o contraseña incorrectos.")
 
 # --- Logout (Sin cambios) ---
@@ -158,6 +182,7 @@ def logout(silent=False, message="Sesión cerrada."):
         try: del st.session_state[key]
         except KeyError: pass
     st.session_state.update({'authenticated':False,'username':None,'user_id':None,'role_name':None,'permissions':set()})
+    clear_session_cookie()  # Clear the session cookie
     if not silent: st.success(message)
     time.sleep(0.5); st.rerun()
 
@@ -165,11 +190,72 @@ def logout(silent=False, message="Sesión cerrada."):
 def requires_permission(permission_name):
     def decorator(func):
         def wrapper(*args, **kwargs):
-            if not check_authentication(): st.stop()
-            if permission_name not in st.session_state.get('permissions', set()):
-                 st.title("🚫 Acceso Denegado"); st.warning(f"Permiso: '{permission_name}' requerido."); st.stop()
-            try: return func(*args, **kwargs)
-            except Exception as e: log.error(f"Error in @requires_permission({permission_name}) for {func.__name__}: {e}", exc_info=True); st.error("Error inesperado."); st.stop()
+            # First check if we have a valid session cookie
+            cookie_data = get_session_cookie()
+            log.info(f"Permission check: {permission_name} - Cookie present: {cookie_data is not None}")
+            
+            if cookie_data:
+                # Restore session state from cookie
+                for key in ['authenticated', 'username', 'user_id', 'role_name', 'permissions']:
+                    if key in cookie_data:
+                        st.session_state[key] = cookie_data[key]
+                if 'permissions' in cookie_data:
+                    st.session_state['permissions'] = set(cookie_data['permissions'])
+                st.session_state['last_activity_time'] = datetime.now(colombia_tz)
+                log.info(f"Restored session from cookie for user: {st.session_state.get('username')}")
+            
+            # Now check authentication
+            if not st.session_state.get('authenticated', False):
+                # If not authenticated, try to restore from cookie
+                if cookie_data and cookie_data.get('authenticated', False):
+                    st.session_state['authenticated'] = True
+                    st.session_state['username'] = cookie_data.get('username')
+                    st.session_state['user_id'] = cookie_data.get('user_id')
+                    st.session_state['role_name'] = cookie_data.get('role_name')
+                    st.session_state['permissions'] = set(cookie_data.get('permissions', []))
+                    st.session_state['last_activity_time'] = datetime.now(colombia_tz)
+                    log.info(f"Authentication restored from cookie")
+                else:
+                    # If no valid cookie, show login page
+                    log.info(f"No valid authentication, showing login page")
+                    show_login_page()
+                    st.stop()
+            
+            # Check session timeout
+            if check_session_timeout():
+                log.info(f"Session timeout detected")
+                st.stop()
+            
+            # Check permission
+            user_permissions = st.session_state.get('permissions', set())
+            has_permission = permission_name in user_permissions
+            log.info(f"Permission check: {permission_name} - Has permission: {has_permission} - User permissions: {user_permissions}")
+            
+            if not has_permission:
+                st.title("🚫 Acceso Denegado")
+                st.warning(f"Permiso: '{permission_name}' requerido.")
+                st.stop()
+            
+            try:
+                # Update last activity and refresh cookie
+                update_last_activity()
+                cookie_data = {
+                    'authenticated': True,
+                    'username': st.session_state.get('username'),
+                    'user_id': st.session_state.get('user_id'),
+                    'role_name': st.session_state.get('role_name'),
+                    'permissions': list(st.session_state.get('permissions', set())),
+                    'last_activity_time': datetime.now(colombia_tz).timestamp()
+                }
+                set_session_cookie(cookie_data)
+                log.info(f"Executing protected function {func.__name__} with permission {permission_name}")
+                
+                # Execute the decorated function
+                return func(*args, **kwargs)
+            except Exception as e:
+                log.error(f"Error in @requires_permission({permission_name}) for {func.__name__}: {e}", exc_info=True)
+                st.error("Error inesperado.")
+                st.stop()
         return wrapper
     return decorator
 

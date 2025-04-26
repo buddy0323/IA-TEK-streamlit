@@ -90,6 +90,59 @@ def load_base_css() -> str:
             }}
             /* === [FIN ÚLTIMO INTENTO CSS] ==================================== */
 
+            /* === Width Control Styles === */
+            /* Override the specific Streamlit emotion cache class */
+            .st-emotion-cache-mtjnbi {{
+                max-width: 100% !important;
+                width: 100% !important;
+                padding: 6rem 2rem 10rem !important;
+            }}
+            
+            /* Force full width for main content */
+            .stApp > .main > .block-container {{
+                max-width: 100% !important;
+                padding-left: 2rem !important;
+                padding-right: 2rem !important;
+                width: 100% !important;
+            }}
+            
+            /* Force sidebar width */
+            .stApp > .sidebar > section[data-testid="stSidebar"] {{
+                min-width: 300px !important;
+                max-width: 300px !important;
+                width: 300px !important;
+            }}
+            
+            /* Ensure consistent spacing */
+            .stApp > .main > .block-container > div[data-testid="stVerticalBlock"] {{
+                gap: 1rem !important;
+            }}
+            
+            .stApp > .main > .block-container > div[data-testid="stHorizontalBlock"] {{
+                gap: 1rem !important;
+            }}
+            
+            /* Override any potential width restrictions */
+            .stApp > .main > .block-container > div[data-testid="stVerticalBlock"] > div {{
+                max-width: 100% !important;
+                width: 100% !important;
+            }}
+            
+            /* Ensure charts and other elements maintain full width */
+            .stApp > .main > .block-container > div[data-testid="stVerticalBlock"] > div > div {{
+                max-width: 100% !important;
+                width: 100% !important;
+            }}
+            
+            /* Override any potential responsive behavior */
+            @media (max-width: 768px) {{
+                .stApp > .main > .block-container {{
+                    max-width: 100% !important;
+                    padding-left: 1rem !important;
+                    padding-right: 1rem !important;
+                }}
+            }}
+
             /* Text color para elementos comunes */
             .stMarkdown, .stText, p, h1, h2, h3, h4, h5, h6,
             label, .stCheckbox > label span, .stRadio > label span,
@@ -499,3 +552,59 @@ def show_navbar():
     """Muestra la barra de navegación superior fija usando estilos globales."""
     dashboard_name = get_configuration('dashboard_name', 'general', 'IA-AMCO Dashboard') or "IA-AMCO"
     st.markdown(f'<div class="navbar-container"><span class="navbar-title">{dashboard_name}</span></div>', unsafe_allow_html=True)
+
+def force_full_width_layout():
+    """
+    Applies JavaScript to force full width layout.
+    This should be called in each page that needs full width display.
+    """
+    js_code = """
+    <script>
+    // Force full width layout function
+    function enforceFullWidth() {
+        // Target main emotion cache class which limits width
+        const mainContainer = document.querySelector('.st-emotion-cache-mtjnbi');
+        if (mainContainer) {
+            mainContainer.style.maxWidth = '100%';
+            mainContainer.style.width = '100%';
+            mainContainer.style.padding = '6rem 2rem 10rem';
+            console.log("Applied full width to main container");
+        }
+        
+        // Other possible containers
+        const containers = [
+            document.querySelector('.main .block-container'),
+            document.querySelector('[data-testid="stAppViewContainer"] > .main'),
+            document.querySelector('[data-testid="stAppViewContainer"] > .main > .block-container'),
+            ...document.querySelectorAll('[data-testid="stVerticalBlock"]'),
+            ...document.querySelectorAll('[data-testid="stHorizontalBlock"]')
+        ];
+        
+        containers.forEach(container => {
+            if (container) {
+                container.style.maxWidth = '100%';
+                container.style.width = '100%';
+            }
+        });
+    }
+    
+    // Run immediately and after any updates
+    enforceFullWidth();
+    window.addEventListener('load', enforceFullWidth);
+    window.addEventListener('DOMContentLoaded', enforceFullWidth);
+    
+    // Run periodically to catch any changes
+    setInterval(enforceFullWidth, 1000);
+    
+    // Additionally listen for Streamlit messages indicating rerun
+    window.addEventListener('message', function(event) {
+        if (event.data.type && 
+            (event.data.type === 'streamlit:render' || 
+             event.data.type === 'streamlit:componentReady')) {
+            setTimeout(enforceFullWidth, 100);
+        }
+    });
+    </script>
+    """
+    
+    st.markdown(js_code, unsafe_allow_html=True)

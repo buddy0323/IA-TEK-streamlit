@@ -8,7 +8,7 @@ from sqlalchemy.exc import OperationalError
 from auth.auth import init_session_state, check_authentication, show_login_page, logout
 from database.database import engine, apply_sqlite_migrations
 from database.models import Base
-from utils.styles import apply_global_styles, show_navbar
+from utils.styles import apply_global_styles, show_navbar, force_full_width_layout
 from utils.helpers import render_sidebar # Importar la función del sidebar
 from utils.config import get_configuration # Importar aquí para set_page_config
 import logging
@@ -30,13 +30,16 @@ except Exception as e:
     print(f"ERROR reading config for page setup: {e}. Using defaults.")
     app_title = APP_TITLE_DEFAULT; app_icon = APP_ICON_DEFAULT
 
+# Set page configuration with consistent width
 st.set_page_config(
     page_title=app_title,
     page_icon=app_icon,
     layout="wide",
     initial_sidebar_state="expanded"
-    # --- LÍNEA 'show_default_navigation=False' ELIMINADA ---
 )
+
+# Apply full width layout
+force_full_width_layout()
 
 # --- Aplicar Migraciones (Tu código existente sin cambios) ---
 MIGRATION_APPLIED_FLAG = '.migration_applied_on_server_start'

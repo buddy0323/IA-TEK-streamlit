@@ -4,7 +4,8 @@ from typing import Optional
 
 # Importaciones necesarias para la función del sidebar
 from utils.config import get_configuration
-from auth.auth import logout # Importar función logout
+from auth.auth import show_login_page, logout # Importar función logout
+from auth.auth import check_authentication
 import logging
 
 log = logging.getLogger(__name__)
@@ -86,5 +87,14 @@ def render_sidebar():
 
         # 4. Botón de Cerrar Sesión
         if st.button("🚪 Cerrar Sesión", key="logout_sidebar_central", use_container_width=True):
-            logout(message="Has cerrado sesión exitosamente.")
-            # logout() ya hace rerun y limpia estado, deteniendo ejecución posterior.
+            # Manually clear session state
+            for key in list(st.session_state.keys()):
+                del st.session_state[key]
+            # Optionally clear cookies if you use them
+            try:
+                from utils.cookies import clear_session_cookie
+                clear_session_cookie()
+            except Exception:
+                pass
+            # Show the login page immediately
+            st.switch_page("app.py")

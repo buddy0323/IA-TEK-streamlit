@@ -13,6 +13,7 @@ from utils.helpers import render_sidebar
 from utils.cookies import get_session_cookie
 from database.database import get_db_session
 from database.models import Agent, Query
+from utils.styles import apply_global_styles
 
 # Permiso requerido para esta página
 PAGE_PERMISSION = "Vista General"
@@ -233,6 +234,7 @@ if cookie_data:
 
 # Always render sidebar and show content if authenticated
 if st.session_state.get('authenticated', False):
+    apply_global_styles()
     render_sidebar()
     show_general_view_placeholder()
 else:

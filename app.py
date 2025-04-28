@@ -5,7 +5,7 @@ import os
 from sqlalchemy.exc import OperationalError
 
 # Importaciones locales revisadas y organizadas
-from auth.auth import init_session_state, check_authentication, show_login_page, logout
+from auth.auth import init_session_state, check_authentication, show_login_page
 from database.database import engine, apply_sqlite_migrations
 from database.models import Base
 from utils.styles import apply_global_styles, show_navbar, force_full_width_layout
@@ -74,8 +74,6 @@ if not is_authenticated:
 else:
     # --- Usuario Autenticado ---
     show_navbar()
-    render_sidebar() # Llama a la función que genera el sidebar correcto
-
-    # El contenido principal se renderiza automáticamente desde la página seleccionada
+    render_sidebar()
 
 # --- Fin del Script app.py ---

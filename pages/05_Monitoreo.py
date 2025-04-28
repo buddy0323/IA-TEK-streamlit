@@ -5,6 +5,7 @@ from auth.auth import requires_permission # Decorador para proteger página
 from utils.helpers import show_dev_placeholder # Helper para mensaje "en desarrollo"
 # from utils.api_client import get_agentops_data # Se importaría cuando se implemente
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -48,4 +49,5 @@ def show_monitoring_page():
 
 # --- Ejecutar la Página ---
 # No se necesita el bloque if __name__ == "__main__"
+apply_global_styles()
 show_monitoring_page()

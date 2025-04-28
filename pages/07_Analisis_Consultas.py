@@ -12,6 +12,7 @@ from utils.config import get_configuration # Para obtener timezone
 from database.database import get_db_session, engine # Necesitamos engine para pd.read_sql
 from database.models import Query, Agent # Modelos
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -258,4 +259,5 @@ def show_query_analysis_page():
          st.warning(f"No se pudo realizar el análisis básico de texto: {text_e}")
 
 # --- Ejecutar la Página ---
+apply_global_styles()
 show_query_analysis_page()

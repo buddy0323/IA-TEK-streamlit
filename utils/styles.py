@@ -537,6 +537,15 @@ def get_login_page_style() -> str:
 def apply_global_styles():
     # ... (código existente en tu apply_global_styles) ...
     try:
+        # Hide default Sidebar items
+        st.markdown("""
+            <style>
+            [data-testid="stSidebarNav"] {
+                display: none !important;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+
         # ... (lectura de colores) ...
         st.markdown(f"<style>{generate_css_variables(colors)}</style>", unsafe_allow_html=True)
         # --- Carga el CSS modificado ---

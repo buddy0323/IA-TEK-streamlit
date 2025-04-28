@@ -16,6 +16,7 @@ import pytz
 import logging
 from datetime import datetime
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -214,4 +215,5 @@ def show_agent_management_page():
     except Exception as page_e: log.error(f"Error page: {page_e}", exc_info=True); st.error(f"Error: {page_e}")
 
 # --- Ejecutar ---
+apply_global_styles()
 show_agent_management_page()

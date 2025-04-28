@@ -12,6 +12,7 @@ from database.database import get_db_session
 from database.models import Role, User
 import logging
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -207,4 +208,5 @@ def show_roles_management_page():
         elif action=='delete' and del_id is not None: delete_role_dialog(role_id=del_id)
     except Exception as page_e: log.error(f"Error page Roles: {page_e}", exc_info=True); st.error(f"Error: {page_e}")
 
+apply_global_styles()
 show_roles_management_page()

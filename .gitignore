@@ -1,3 +1,2 @@
 *pycache*
-*.db
 *.migration_applied_on_server_start

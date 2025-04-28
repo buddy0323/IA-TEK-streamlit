@@ -70,6 +70,7 @@ is_authenticated = check_authentication()
 
 if not is_authenticated:
     show_login_page()
+    print("Logined")
     st.stop()
 else:
     # --- Usuario Autenticado ---

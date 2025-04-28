@@ -16,6 +16,7 @@ import logging
 import pytz
 from utils.config import get_configuration
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -164,4 +165,5 @@ def show_agent_list_and_chat():
     else: st.info("⬅️ Selecciona un agente para chatear.")
 
 # --- Ejecutar ---
+apply_global_styles()
 show_agent_list_and_chat()

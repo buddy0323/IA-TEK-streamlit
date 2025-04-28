@@ -14,6 +14,7 @@ from database.database import get_db_session
 from database.models import LanguageModelOption, SkillOption, PersonalityOption, GoalOption, Configuration
 import logging
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -203,4 +204,5 @@ def security_config_section(): # Sin cambios
              except Exception as e: st.error(f"Error fatal seguridad: {e}")
 
 # --- Ejecutar ---
+apply_global_styles()
 show_config_page()

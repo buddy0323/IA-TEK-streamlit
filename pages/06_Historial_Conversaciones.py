@@ -9,6 +9,7 @@ from utils.config import get_configuration # Para obtener timezone configurada
 from database.database import get_db_session
 from database.models import Query, Agent # Modelos necesarios
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -168,4 +169,5 @@ def show_conversation_history_page():
         # st.exception(e) # Descomentar para ver traceback completo en debug
 
 # --- Ejecutar la Página ---
+apply_global_styles()
 show_conversation_history_page()

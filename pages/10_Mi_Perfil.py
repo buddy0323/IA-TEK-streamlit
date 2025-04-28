@@ -11,6 +11,7 @@ from database.models import User, Role
 from utils.helpers import is_valid_email
 import logging
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -86,4 +87,5 @@ def show_profile_page():
                         except Exception as e: st.error(f"❌ Error guardando perfil: {e}"); log.error("Error saving profile", exc_info=True)
     except Exception as e: st.error(f"Error cargando datos perfil: {e}"); log.error("Error loading profile page", exc_info=True)
 
+apply_global_styles()
 show_profile_page()

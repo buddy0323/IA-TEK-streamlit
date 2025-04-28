@@ -18,6 +18,7 @@ from utils.helpers import is_valid_email
 from utils.config import get_configuration
 import logging
 from utils.helpers import render_sidebar # <-- AÑADIR ESTA LÍNEA
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -230,4 +231,5 @@ def show_user_management_page():
         elif action=='delete' and del_id is not None: delete_user_dialog(user_id=del_id)
     except Exception as page_e: log.error(f"Error page Users: {page_e}", exc_info=True); st.error(f"Error: {page_e}")
 
+apply_global_styles()
 show_user_management_page()

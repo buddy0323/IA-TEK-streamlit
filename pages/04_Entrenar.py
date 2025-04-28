@@ -4,6 +4,7 @@ from auth.auth import requires_permission
 from utils.helpers import render_sidebar
 from database.database import get_db_session
 from database.models import Agent
+from utils.styles import apply_global_styles
 
 # --- LLAMAR A RENDER_SIDEBAR TEMPRANO ---
 render_sidebar()
@@ -65,11 +66,12 @@ def show_entrenar_page():
                 if response.status_code == 200:
                     st.toast("✅ El agente fue entrenado con éxito.", icon="✅")
                 else:
-                    st.toast("❌ El entrenamiento del agente falló. Inténtalo de nuevo.", icon="❌")
+                    st.toast("❌ El entrenamiento del agente falló.", icon="❌")
             except Exception as e:
                 st.toast(f"❌ Error al conectar con el workflow de n8n: {e}", icon="❌")
 
 # --- Ejecutar la Página ---
 # No se necesita el bloque if __name__ == "__main__"
 # app.py y el decorador gestionan la ejecución y protección.
+apply_global_styles()
 show_entrenar_page()

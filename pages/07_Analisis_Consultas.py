@@ -36,7 +36,8 @@ except Exception as e:
 @requires_permission(PAGE_PERMISSION)
 def show_query_analysis_page():
     """Muestra la página de Análisis de Consultas con filtros y gráficos."""
-    st.title("🔍 Análisis de Consultas")
+    # st.title("🔍 Análisis de Consultas")
+    st.title("🔍 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption("Explora patrones y tendencias en las interacciones con los agentes.")
 
     # --- Filtros ---

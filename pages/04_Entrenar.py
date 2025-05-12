@@ -18,7 +18,8 @@ def show_entrenar_page():
     """
     Muestra la página de Entrenamiento de Agentes (actualmente en desarrollo).
     """
-    st.title("🧠 Entrenamiento de Agentes IA")
+    # st.title("🧠 Entrenamiento de Agentes IA")
+    st.title("🧠 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption("Gestiona el conocimiento y mejora el rendimiento de tus agentes.")
 
     st.markdown("---")

@@ -187,7 +187,8 @@ def render_agent_form_content(mode: str, agent_data: Optional[Dict[str, Any]] = 
 # --- Página Principal ---
 @requires_permission(PAGE_PERMISSION)
 def show_agent_management_page():
-    st.title("🛠️ Gestión Agentes (Local)"); st.caption("Crear, editar, eliminar.")
+    # st.title("🛠️ Gestión Agentes (Local)"); st.caption("Crear, editar, eliminar.")
+    st.title("🛠️ I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Crear, editar, eliminar.")
     try:
         agents_data, agent_options, error_load, error_message = load_local_agents_data()
         if st.button("🔄 Refrescar"): st.rerun()

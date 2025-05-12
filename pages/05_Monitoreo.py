@@ -19,7 +19,8 @@ def show_monitoring_page():
     """
     Muestra la página de Monitoreo de Agentes (actualmente en desarrollo).
     """
-    st.title("📡 Monitoreo de Agentes y Sistema")
+    # st.title("📡 Monitoreo de Agentes y Sistema")
+    st.title("📡 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption("Visualización del rendimiento, estado y costos operativos en tiempo real.")
 
     # Mostrar el mensaje estándar de "en desarrollo"

@@ -130,8 +130,8 @@ def show_login_page():
     with col_login:
         logo_url = get_configuration('logo_url', 'general', '')
         if logo_url: st.markdown(f'<div style="text-align:center;"><img src="{logo_url}" style="max-width:350px;height:auto;margin-bottom:1rem;"></div>', unsafe_allow_html=True)
-        # st.markdown("<h2 class='login-header-title'>IA-AMCO Dashboard</h2>", unsafe_allow_html=True)
-        st.markdown("<h2 class='login-header-title'>I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 class='login-header-title'>IA-AMCO Dashboard</h2>", unsafe_allow_html=True)
+        # st.markdown("<h2 class='login-header-title'>I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.</h2>", unsafe_allow_html=True)
         st.markdown("<p class='login-header-subtitle'>Administración de agentes IA</p>", unsafe_allow_html=True)
         st.markdown('<div style="height:1.5rem;"></div>', unsafe_allow_html=True)
         with st.container(): # Caja login

@@ -197,8 +197,8 @@ def render_user_form_content(mode: str, user_data: Optional[Dict[str, Any]] = No
 # --- Página Principal ---
 @requires_permission(PAGE_PERMISSION)
 def show_user_management_page():
-    # st.title("👤 Gestión Usuarios"); st.caption("Crear, visualizar, editar, eliminar.")
-    st.title("👤 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Crear, visualizar, editar, eliminar.")
+    st.title("👤 Gestión Usuarios"); st.caption("Crear, visualizar, editar, eliminar.")
+    # st.title("👤 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Crear, visualizar, editar, eliminar.")
     try:
         # Llamar función de carga
         users_data, user_options, error_load, error_message = load_user_data() # Usa nueva función

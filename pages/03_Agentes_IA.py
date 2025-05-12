@@ -72,8 +72,8 @@ def load_local_active_agents_data() -> Tuple[List[Dict[str, Any]], Optional[Exce
 # --- Página Principal ---
 @requires_permission(PAGE_PERMISSION)
 def show_agent_list_and_chat():
-    # st.title("🤖 Agentes IA Disponibles")
-    st.title("🤖 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
+    st.title("🤖 Agentes IA Disponibles")
+    # st.title("🤖 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption("Selecciona un agente definido localmente para iniciar una conversación.")
     init_chat_page_state()
 

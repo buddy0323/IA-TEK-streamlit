@@ -89,8 +89,8 @@ def crud_options_ui(option_model, model_name_singular: str, model_name_plural: s
 # --- Página Principal y otras secciones (sin cambios) ---
 @requires_role("superadministrador")
 def show_config_page():
-    # st.title("⚙️ Configuración"); st.caption("Gestiona APIs, opciones, apariencia y seguridad.")
-    st.title("⚙️ I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Gestiona APIs, opciones, apariencia y seguridad.")
+    st.title("⚙️ Configuración"); st.caption("Gestiona APIs, opciones, apariencia y seguridad.")
+    # st.title("⚙️ I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Gestiona APIs, opciones, apariencia y seguridad.")
     tabs = st.tabs(["🔌 APIs", "🧩 Opciones Agentes", "⚙️ General", "🎨 Apariencia", "🔒 Seguridad"])
     with tabs[0]: api_config_section()
     with tabs[1]: options_agents_tab_content()

@@ -29,7 +29,8 @@ except pytz.exceptions.UnknownTimeZoneError:
 @requires_permission(PAGE_PERMISSION)
 def show_conversation_history_page():
     """Muestra la página de Historial de Conversaciones con filtros."""
-    st.title("📜 Historial de Conversaciones")
+    # st.title("📜 Historial de Conversaciones")
+    st.title("📜 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption("Revisa y filtra las interacciones pasadas con los agentes IA.")
 
     # --- Filtros (Agrupados en un Expander) ---

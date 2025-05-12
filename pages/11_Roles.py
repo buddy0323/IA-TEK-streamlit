@@ -167,7 +167,8 @@ def render_role_form_content(mode: str, all_permissions: List[str], is_superadmi
 # --- Página Principal ---
 @requires_permission(PAGE_PERMISSION)
 def show_roles_management_page():
-    st.title("🎭 Roles y Permisos"); st.caption("Define roles y sus permisos.")
+    # st.title("🎭 Roles y Permisos"); st.caption("Define roles y sus permisos.")
+    st.title("🎭 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Define roles y sus permisos.")
     try:
         # Usar la función modificada que no devuelve objetos Role
         roles_data, role_options, error_load, error_message = load_roles_data_for_display()

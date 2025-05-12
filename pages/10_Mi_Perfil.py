@@ -20,7 +20,8 @@ render_sidebar()
 log = logging.getLogger(__name__)
 
 def show_profile_page():
-    st.title("👤 Mi Perfil"); st.caption("Actualiza tu información personal y contraseña.")
+    # st.title("👤 Mi Perfil"); st.caption("Actualiza tu información personal y contraseña.")
+    st.title("👤 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer."); st.caption("Actualiza tu información personal y contraseña.")
     user_id = st.session_state.get('user_id')
     if not user_id: st.error("Error: Sesión no identificada."); st.stop()
 

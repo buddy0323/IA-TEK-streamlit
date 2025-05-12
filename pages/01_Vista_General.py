@@ -22,7 +22,8 @@ PAGE_PERMISSION = "Vista General"
 def show_general_view_placeholder():
     """Muestra la página de Vista General con datos y gráficos de ejemplo."""
 
-    st.title("📊 Vista General del Dashboard")
+    # st.title("📊 Vista General del Dashboard")
+    st.title("📊 I waited for two weeks. Johnatan George, Pay me quickly. You are a scammer.")
     st.caption(f"Resumen y métricas clave. Fecha actual: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
 
     st.markdown("---")
